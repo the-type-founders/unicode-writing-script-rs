@@ -1,0 +1,12 @@
+[package]
+name = "unicode-writing-script"
+version = "0.1.0"
+edition = "2024"
+license = "Apache-2.0 OR MIT"
+description = "The package provides detection of writing scripts from Unicode codepoints."
+documentation = "https://docs.rs/unicode-writing-script"
+homepage = "https://github.com/the-type-founders/unicode-writing-script"
+repository = "https://github.com/the-type-founders/unicode-writing-script"
+readme = "README.md"
+categories = ["text-processing"]
+keywords = ["writing-script", "unicode"]
