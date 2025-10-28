@@ -17,8 +17,8 @@ pub struct State {
 pub struct Script {
     /// The number of codepoints found in the script.
     pub count: usize,
-    /// The proportion of codepoints found in the script.
-    pub score: f64,
+    /// The total number of codepoints in the script.
+    pub total: usize,
 }
 
 #[derive(Clone)]
@@ -40,14 +40,11 @@ impl State {
                     let count = range.end.min(end + 1) - range.start.max(start);
                     let script = scripts.entry(*name).or_insert_with(|| Script {
                         count: 0,
-                        score: tree.count as f64,
+                        total: tree.count,
                     });
                     script.count += count as usize;
                 }
             }
-        }
-        for script in scripts.values_mut() {
-            script.score = script.count as f64 / script.score;
         }
         scripts
     }
@@ -105,14 +102,14 @@ mod tests {
         compare(
             CODEPOINTS,
             vec![
-                ("Cyrillic", 230),
-                ("Emoji", 27),
-                ("Emoji_Component", 15),
-                ("Greek", 78),
-                ("Inherited", 20),
-                ("Latin", 395),
-                ("PUA", 115),
-                ("Unknown", 123),
+                ("Cyrillic", 230, 518),
+                ("Emoji", 27, 1589),
+                ("Emoji_Component", 15, 156),
+                ("Greek", 78, 554),
+                ("Inherited", 20, 714),
+                ("Latin", 395, 1528),
+                ("PUA", 115, 137468),
+                ("Unknown", 123, 954979),
             ],
         );
     }
@@ -124,15 +121,15 @@ mod tests {
         compare(
             CODEPOINTS,
             vec![
-                ("Arabic", 100),
-                ("Emoji", 21),
-                ("Emoji_Component", 16),
-                ("Greek", 2),
-                ("Hebrew", 1),
-                ("Inherited", 36),
-                ("Latin", 414),
-                ("PUA", 5),
-                ("Unknown", 8),
+                ("Arabic", 100, 1469),
+                ("Emoji", 21, 1589),
+                ("Emoji_Component", 16, 156),
+                ("Greek", 2, 554),
+                ("Hebrew", 1, 143),
+                ("Inherited", 36, 714),
+                ("Latin", 414, 1528),
+                ("PUA", 5, 137468),
+                ("Unknown", 8, 954979),
             ],
         );
     }
@@ -144,15 +141,15 @@ mod tests {
         compare(
             CODEPOINTS,
             vec![
-                ("Arabic", 1),
-                ("Devanagari", 125),
-                ("Emoji", 21),
-                ("Emoji_Component", 16),
-                ("Greek", 2),
-                ("Inherited", 27),
-                ("Latin", 391),
-                ("PUA", 4),
-                ("Unknown", 7),
+                ("Arabic", 1, 1469),
+                ("Devanagari", 125, 169),
+                ("Emoji", 21, 1589),
+                ("Emoji_Component", 16, 156),
+                ("Greek", 2, 554),
+                ("Inherited", 27, 714),
+                ("Latin", 391, 1528),
+                ("PUA", 4, 137468),
+                ("Unknown", 7, 954979),
             ],
         );
     }
@@ -164,15 +161,15 @@ mod tests {
         compare(
             CODEPOINTS,
             vec![
-                ("Emoji", 22),
-                ("Emoji_Component", 17),
-                ("Greek", 2),
-                ("Hangul", 11281),
-                ("Inherited", 23),
-                ("Katakana", 1),
-                ("Latin", 391),
-                ("PUA", 4),
-                ("Unknown", 10),
+                ("Emoji", 22, 1589),
+                ("Emoji_Component", 17, 156),
+                ("Greek", 2, 554),
+                ("Hangul", 11281, 11753),
+                ("Inherited", 23, 714),
+                ("Katakana", 1, 335),
+                ("Latin", 391, 1528),
+                ("PUA", 4, 137468),
+                ("Unknown", 10, 954979),
             ],
         );
     }
@@ -184,14 +181,14 @@ mod tests {
         compare(
             CODEPOINTS,
             vec![
-                ("Emoji", 21),
-                ("Emoji_Component", 17),
-                ("Greek", 2),
-                ("Hebrew", 88),
-                ("Inherited", 23),
-                ("Latin", 401),
-                ("PUA", 4),
-                ("Unknown", 14),
+                ("Emoji", 21, 1589),
+                ("Emoji_Component", 17, 156),
+                ("Greek", 2, 554),
+                ("Hebrew", 88, 143),
+                ("Inherited", 23, 714),
+                ("Latin", 401, 1528),
+                ("PUA", 4, 137468),
+                ("Unknown", 14, 954979),
             ],
         );
     }
@@ -203,15 +200,15 @@ mod tests {
         compare(
             CODEPOINTS,
             vec![
-                ("Devanagari", 1),
-                ("Emoji", 21),
-                ("Emoji_Component", 16),
-                ("Greek", 2),
-                ("Inherited", 22),
-                ("Latin", 409),
-                ("PUA", 4),
-                ("Tamil", 72),
-                ("Unknown", 23),
+                ("Devanagari", 1, 169),
+                ("Emoji", 21, 1589),
+                ("Emoji_Component", 16, 156),
+                ("Greek", 2, 554),
+                ("Inherited", 22, 714),
+                ("Latin", 409, 1528),
+                ("PUA", 4, 137468),
+                ("Tamil", 72, 141),
+                ("Unknown", 23, 954979),
             ],
         );
     }
@@ -223,24 +220,24 @@ mod tests {
         compare(
             CODEPOINTS,
             vec![
-                ("Emoji", 21),
-                ("Emoji_Component", 16),
-                ("Greek", 2),
-                ("Inherited", 22),
-                ("Latin", 391),
-                ("PUA", 4),
-                ("Thai", 86),
-                ("Unknown", 9),
+                ("Emoji", 21, 1589),
+                ("Emoji_Component", 16, 156),
+                ("Greek", 2, 554),
+                ("Inherited", 22, 714),
+                ("Latin", 391, 1528),
+                ("PUA", 4, 137468),
+                ("Thai", 86, 88),
+                ("Unknown", 9, 954979),
             ],
         );
     }
 
-    fn compare(codepoints: &str, expected: Vec<(&str, usize)>) {
+    fn compare(codepoints: &str, expected: Vec<(&str, usize, usize)>) {
         let codepoints: Vec<Range> = ok!(serde_json::from_str(codepoints));
         let results = State::default().detect(codepoints.into_iter().map(Into::into));
         let actual = results
             .into_iter()
-            .map(|(name, script)| (name, script.count))
+            .map(|(name, script)| (name, script.count, script.total))
             .collect::<Vec<_>>();
         assert_eq!(actual, expected);
     }
