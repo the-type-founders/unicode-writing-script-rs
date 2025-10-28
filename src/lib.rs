@@ -6,9 +6,9 @@ use interavl::IntervalTree;
 
 include!(concat!(env!("OUT_DIR"), "/data.rs"));
 
-/// A state.
+/// A context.
 #[derive(Clone)]
-pub struct State {
+pub struct Context {
     forest: BTreeMap<&'static str, Tree>,
 }
 
@@ -27,7 +27,7 @@ struct Tree {
     backend: IntervalTree<u32, ()>,
 }
 
-impl State {
+impl Context {
     /// Detect writing scripts given ranges of Unicode codepoints.
     pub fn detect<T>(&self, codepoints: T) -> BTreeMap<&'static str, Script>
     where
@@ -50,7 +50,7 @@ impl State {
     }
 }
 
-impl Default for State {
+impl Default for Context {
     fn default() -> Self {
         let mut forest = BTreeMap::default();
         for (name, ranges) in DATA {
@@ -76,7 +76,7 @@ impl From<&[(u32, u32)]> for Tree {
 mod tests {
     use serde::Deserialize;
 
-    use crate::State;
+    use crate::Context;
 
     #[derive(Deserialize)]
     #[serde(untagged)]
@@ -234,7 +234,7 @@ mod tests {
 
     fn compare(codepoints: &str, expected: Vec<(&str, usize, usize)>) {
         let codepoints: Vec<Range> = ok!(serde_json::from_str(codepoints));
-        let results = State::default().detect(codepoints.into_iter().map(Into::into));
+        let results = Context::default().detect(codepoints.into_iter().map(Into::into));
         let actual = results
             .into_iter()
             .map(|(name, script)| (name, script.count, script.total))
