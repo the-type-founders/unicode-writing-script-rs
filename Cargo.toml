@@ -10,3 +10,6 @@ repository = "https://github.com/the-type-founders/unicode-writing-script"
 readme = "README.md"
 categories = ["text-processing"]
 keywords = ["writing-script", "unicode"]
+
+[build-dependencies]
+serde_json = { version = "1", default-features = false, features = ["std"] }
