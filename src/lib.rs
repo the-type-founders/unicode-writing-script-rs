@@ -78,6 +78,8 @@ mod tests {
 
     use crate::Context;
 
+    macro_rules! ok(($result:expr) => ($result.unwrap()));
+
     #[derive(Deserialize)]
     #[serde(untagged)]
     enum Range {
@@ -93,8 +95,6 @@ mod tests {
             }
         }
     }
-
-    macro_rules! ok(($result:expr) => ($result.unwrap()));
 
     #[test]
     fn proxima_nova() {
