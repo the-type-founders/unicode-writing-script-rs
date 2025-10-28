@@ -8,7 +8,7 @@ Your contribution is highly appreciated. Do not hesitate to open an issue or a
 pull request. Note that any contribution submitted for inclusion in the project
 will be licensed according to the terms given in [LICENSE.md](LICENSE.md).
 
-[build-img]: https://github.com/the-type-founders/unicode-writing-script-rs/workflows/build/badge.svg
+[build-img]: https://github.com/the-type-founders/unicode-writing-script-rs/actions/workflows/build.yml/badge.svg
 [build-url]: https://github.com/the-type-founders/unicode-writing-script-rs/actions/workflows/build.yml
 [documentation-img]: https://docs.rs/unicode-writing-script/badge.svg
 [documentation-url]: https://docs.rs/unicode-writing-script
