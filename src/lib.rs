@@ -112,6 +112,7 @@ mod tests {
                 ("Inherited", 20),
                 ("Latin", 395),
                 ("PUA", 115),
+                ("Unknown", 123),
             ],
         );
     }
@@ -131,6 +132,7 @@ mod tests {
                 ("Inherited", 36),
                 ("Latin", 414),
                 ("PUA", 5),
+                ("Unknown", 8),
             ],
         );
     }
@@ -150,6 +152,7 @@ mod tests {
                 ("Inherited", 27),
                 ("Latin", 391),
                 ("PUA", 4),
+                ("Unknown", 7),
             ],
         );
     }
@@ -169,6 +172,7 @@ mod tests {
                 ("Katakana", 1),
                 ("Latin", 391),
                 ("PUA", 4),
+                ("Unknown", 10),
             ],
         );
     }
@@ -187,6 +191,7 @@ mod tests {
                 ("Inherited", 23),
                 ("Latin", 401),
                 ("PUA", 4),
+                ("Unknown", 14),
             ],
         );
     }
@@ -206,6 +211,7 @@ mod tests {
                 ("Latin", 409),
                 ("PUA", 4),
                 ("Tamil", 72),
+                ("Unknown", 23),
             ],
         );
     }
@@ -224,6 +230,7 @@ mod tests {
                 ("Latin", 391),
                 ("PUA", 4),
                 ("Thai", 86),
+                ("Unknown", 9),
             ],
         );
     }
