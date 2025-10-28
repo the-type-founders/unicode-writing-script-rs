@@ -1,0 +1,3 @@
+[submodule "vendor/detect-writing-scripts/source"]
+	path = vendor/detect-writing-script/source
+	url = https://github.com/bramstein/detect-writing-script.git
